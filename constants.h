@@ -3,9 +3,9 @@
 #include <vector>
 #include <string>
 
-std::vector<int> HOUSE_COSTS = {50, 100, 150, 200};
+const std::vector<int> HOUSE_COSTS = {50, 100, 150, 200};
 
-std::vector<std::vector<int>> RENT_COSTS = {
+const std::vector<std::vector<int>> RENT_COSTS = {
     {2, 10, 30, 90, 160, 250}, // Meditteranean Avenue
     {4, 20, 60, 180, 320, 450}, // Baltic Avenue
     {6, 30, 90, 270, 400, 550}, // Oriental Avenue
@@ -30,7 +30,7 @@ std::vector<std::vector<int>> RENT_COSTS = {
     {50, 200, 600, 1400, 1700, 2000}, // Boardwalk
 };
 
-std::vector<int> PURCHASE_COSTS = {
+const std::vector<int> PURCHASE_COSTS = {
     40, // Meditteranean Avenue
     60, // Baltic Avenue
     100, // Oriental Avenue
@@ -55,7 +55,7 @@ std::vector<int> PURCHASE_COSTS = {
     400 // Boardwalk
 };
 
-std::vector<std::string> NAMES = {
+const std::vector<std::string> NAMES = {
     "Meditteranean Avenue",
     "Baltic Avenue",
     "Oriental Avenue",
@@ -80,5 +80,16 @@ std::vector<std::string> NAMES = {
     "Boardwalk"
 };
 
+// colours
+
+const std::string BROWN = "\033[38;5;94m";
+const std::string LIGHT_BLUE = "\033[38;5;14m";
+const std::string PINK = "\033[38;5;199m";
+const std::string ORANGE = "\033[38;5;202m";
+const std::string RED = "\033[38;5;196m";
+const std::string YELLOW = "\033[38;5;226m";
+const std::string GREEN = "\033[38;5;22m";
+const std::string BLUE = "\033[34m";
+const std::string RESET = "\033[0m";
 
 #endif

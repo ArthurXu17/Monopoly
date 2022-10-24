@@ -6,7 +6,6 @@ class Property {
     std::shared_ptr<Player> owner;
     int cost;
     bool mortgaged;
-    std::string name;
     public:
         virtual int calculate_rent() const = 0;
         bool is_owned() const;
