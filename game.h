@@ -6,6 +6,7 @@
 
 class Game {
     int tile_size = 10;
+    std::vector<std::shared_ptr<Player>> players;
     // print board helper functions
     void print_tile_edge() const;
     void print_blank_tile() const;
@@ -17,8 +18,9 @@ class Game {
     void print_tile_center_row() const;
     void print_inner_border() const;
     void print_outer_border() const;
+    void print_player_on_tile(int pos) const;
     public:
-        Game();
+        Game(std::vector<std::shared_ptr<Player>> players_in);
         void print_board() const;
         ~Game();
 };

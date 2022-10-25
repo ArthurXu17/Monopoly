@@ -1,7 +1,7 @@
 CXX = g++
 CXXFLAGS = -std=c++14 -g -Wall -MMD -Werror=vla #-fsanitize=address
 BUILD = bin
-OBJECTS = main.o game.o
+OBJECTS = main.o game.o control.o player.o
 DEPENDS = ${OBJECTS:.o=.d}
 EXEC = monopoly
 

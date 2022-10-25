@@ -2,7 +2,7 @@
 #include "game.h"
 
 
-Game::Game() {}
+Game::Game(std::vector<std::shared_ptr<Player>> players_in): players{players_in} {}
 
 Game::~Game() {}
 
@@ -88,6 +88,21 @@ void Game::print_tile_center_row() const {
     std::cout<<"|"<<std::endl;
 }
 
+void Game::print_player_on_tile(int pos) const {
+    // assumes 10 is visiting 30 is in jail
+    int count = 0;
+    for (auto p : players) {
+        if (p->get_position() == pos) {
+            std::cout<<*p<<" ";
+            count++;
+        }
+    }
+    for (int i = 1; i <= tile_size - 2 * count; i++) {
+        std::cout<<" ";
+    }
+    std::cout<<"|";
+}
+
 void Game::print_board() const {
     print_outer_border();
     std::cout<<"|";
@@ -138,8 +153,12 @@ void Game::print_board() const {
     print_blank_tile();
     print_str_tile("GARDENS");
     print_blank_tile();
+    std::cout<<std::endl<<"|";
+    for (int i = 20; i <= 29; i++) {
+        print_player_on_tile(i);
+    }
+    print_blank_tile();
     std::cout<<std::endl;
-    print_empty_tile_row();
     print_inner_border();
     print_empty_center_row();
     std::cout<<"|";
@@ -155,7 +174,11 @@ void Game::print_board() const {
     print_middle();
     print_str_tile("AVENUE");
     std::cout<<std::endl;
-    print_empty_center_row();
+    std::cout<<"|";
+    print_player_on_tile(19); // new york players
+    print_middle();
+    print_player_on_tile(31); // pacific players
+    std::cout<<std::endl;
     print_tile_center_row();
     print_empty_center_row();
     std::cout<<"|";
@@ -171,7 +194,11 @@ void Game::print_board() const {
     print_middle();
     print_str_tile("AVENUE");
     std::cout<<std::endl;
-    print_empty_center_row();
+    std::cout<<"|";
+    print_player_on_tile(18); // tennessee players
+    print_middle();
+    print_player_on_tile(32); // north carolina players
+    std::cout<<std::endl;
     print_tile_center_row();
     std::cout<<"|";
     print_str_tile("COMMUNITY");
@@ -185,7 +212,11 @@ void Game::print_board() const {
     std::cout<<std::endl;
     print_empty_center_row();
     print_empty_center_row();
-    print_empty_center_row();
+    std::cout<<"|";
+    print_player_on_tile(17); // cc
+    print_middle();
+    print_player_on_tile(33); // cc
+    std::cout<<std::endl;
     print_tile_center_row();
     print_empty_center_row();
     std::cout<<"|";
@@ -201,7 +232,11 @@ void Game::print_board() const {
     print_middle();
     print_str_tile("AVENUE");
     std::cout<<std::endl;
-    print_empty_center_row();
+    std::cout<<"|";
+    print_player_on_tile(16); // st james players
+    print_middle();
+    print_player_on_tile(34); // pennsylvania players
+    std::cout<<std::endl;
     print_tile_center_row();
     std::cout<<"|";
     print_str_tile("PENN.");
@@ -215,7 +250,11 @@ void Game::print_board() const {
     std::cout<<std::endl;
     print_empty_center_row();
     print_empty_center_row();
-    print_empty_center_row();
+    std::cout<<"|";
+    print_player_on_tile(15); // penn railroad
+    print_middle();
+    print_player_on_tile(35); // short line
+    std::cout<<std::endl;
     print_tile_center_row();
     std::cout<<"|";
     print_blank_tile();
@@ -237,7 +276,11 @@ void Game::print_board() const {
     print_middle();
     print_blank_tile();
     std::cout<<std::endl;
-    print_empty_center_row();
+    std::cout<<"|";
+    print_player_on_tile(14); // virginia
+    print_middle();
+    print_player_on_tile(36); // chance
+    std::cout<<std::endl;
     print_tile_center_row();
     print_empty_center_row();
     std::cout<<"|";
@@ -253,7 +296,11 @@ void Game::print_board() const {
     print_middle();
     print_str_tile("PLACE");
     std::cout<<std::endl;
-    print_empty_center_row();
+    std::cout<<"|";
+    print_player_on_tile(13); // states
+    print_middle();
+    print_player_on_tile(37); // park place
+    std::cout<<std::endl;
     print_tile_center_row();
     std::cout<<"|";
     print_str_tile("ELECTRIC");
@@ -267,7 +314,11 @@ void Game::print_board() const {
     std::cout<<std::endl;
     print_empty_center_row();
     print_empty_center_row();
-    print_empty_center_row();
+    std::cout<<"|";
+    print_player_on_tile(12); // electric company
+    print_middle();
+    print_player_on_tile(38); // luxary tax
+    std::cout<<std::endl;
     print_tile_center_row();
     print_empty_center_row();
     std::cout<<"|";
@@ -283,7 +334,11 @@ void Game::print_board() const {
     print_middle();
     print_blank_tile();
     std::cout<<std::endl;
-    print_empty_center_row();
+    std::cout<<"|";
+    print_player_on_tile(11); // st charles
+    print_middle();
+    print_player_on_tile(39); // boardwalk
+    std::cout<<std::endl;
     std::cout<<"|";
     print_tile_edge();
     std::cout<<"|";
@@ -306,7 +361,7 @@ void Game::print_board() const {
     print_blank_tile();
     print_str_tile("GO");
     std::cout<<std::endl<<"|";
-    print_blank_tile();
+    print_player_on_tile(30); // in jail
     print_property_edge(LIGHT_BLUE);
     print_property_edge(LIGHT_BLUE);
     print_blank_tile();
@@ -342,7 +397,10 @@ void Game::print_board() const {
     print_blank_tile();
     print_str_tile("AVENUE");
     print_blank_tile();
+    std::cout<<std::endl<<"|";
+    for (int i = 10; i >= 0; i--) {
+        print_player_on_tile(i);
+    }
     std::cout<<std::endl;
-    print_empty_tile_row();
     print_inner_border();
 }
