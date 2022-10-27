@@ -11,7 +11,9 @@ class Street_Property : public Property {
     bool is_monopoly = false;
 
     public:
-        Street_Property(std::string name_in, int cost_in, int house_cost_in, std::vector<int> rent_by_houses_in);
+        Street_Property(std::string name_in, std::shared_ptr<Player> owner_in, int cost_in,
+                        int house_cost_in, std::vector<int> rent_by_houses_in);
+        int calculate_rent() const override;
         bool can_buy_house() const;
         bool can_buy_hotel() const;
 };

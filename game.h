@@ -2,11 +2,17 @@
 #define _GAME_H_
 #include "player.h"
 #include "constants.h"
+#include "street_property.h"
+#include "railroad.h"
+#include "utility.h"
 
 
 class Game {
     int tile_size = 10;
     std::vector<std::shared_ptr<Player>> players;
+    std::vector<std::shared_ptr<Tile>> tiles;
+    // property intialization helper funciton
+    void add_street_property(int &i);
     // print board helper functions
     void print_tile_edge() const;
     void print_blank_tile() const;

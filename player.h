@@ -11,6 +11,7 @@ class Player {
     std::string colour;
     int position = 0;
     int money = 1500;
+    int last_roll = 0; // used for utilities
     int num_railroads = 0;
     int num_utilities = 0;
     int jail_turns = 0;
@@ -24,10 +25,13 @@ class Player {
         char get_char() const;
         std::string get_colour() const;
         int get_position() const;
+        int get_num_railroads() const;
+        int get_num_utilities() const;
+        int get_last_roll() const;
         // modifiers from game
         void earn_money(int amount);
         void pay_bank(int amount);
-        void pay_player(std::unique_ptr<Player> receiver, int amount);
+        void pay_player(std::shared_ptr<Player> &receiver, int amount);
         void move_forward(int steps);
 };
 

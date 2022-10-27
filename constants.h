@@ -81,7 +81,7 @@ const std::vector<std::string> NAMES = {
 };
 
 // colours
-
+// taken from: https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797
 const std::string BROWN = "\033[38;5;94m";
 const std::string LIGHT_BLUE = "\033[38;5;14m";
 const std::string PINK = "\033[38;5;199m";
