@@ -1,7 +1,9 @@
 #include "railroad.h"
 
-Railroad::Railroad(std::string name_in, std::shared_ptr<Player> owner_in, int cost):
-    Property{name_in, owner_in, cost} {}
+Railroad::Railroad(std::string name_in, int cost):
+    Property{name_in, cost} {}
+
+Railroad::~Railroad() {}
 
 int Railroad::calculate_rent() const {
     if (owner->get_num_railroads() == 1) {

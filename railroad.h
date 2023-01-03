@@ -5,7 +5,8 @@
 
 class Railroad : public Property {
     public:
-        Railroad(std::string name_in, std::shared_ptr<Player> owner_in, int cost);
+        Railroad(std::string name_in, int cost);
+        ~Railroad();
         int calculate_rent() const override;
 };
 

@@ -2,7 +2,6 @@
 #include "game.h"
 
 void Game::add_street_property(int &i) {
-    /*
     int j = 0; // house index
     if (6 <= i && i <= 11) {
         j = 1;
@@ -12,29 +11,28 @@ void Game::add_street_property(int &i) {
         j = 3;
     }
     tiles.emplace_back(std::make_shared<Street_Property>(
-        NAMES[i], nullptr, PURCHASE_COSTS[i], HOUSE_COSTS[j], RENT_COSTS[i]));
-    i++;*/
+        NAMES[i], PURCHASE_COSTS[i], HOUSE_COSTS[j], RENT_COSTS[i]));
+    i++;
 }
 
 Game::Game(std::vector<std::shared_ptr<Player>> players_in): players{players_in} {
-    /*
     tiles.emplace_back(std::make_shared<NothingTile>("GO"));
     int street_property_counter = 0;
     add_street_property(street_property_counter);
     tiles.emplace_back(std::make_shared<NothingTile>("Community Chest"));
     add_street_property(street_property_counter);
     tiles.emplace_back(std::make_shared<TaxTile>("Income Tax", 200));
-    tiles.emplace_back(std::make_shared<Railroad>("Reading Railroad", nullptr, 200));
+    tiles.emplace_back(std::make_shared<Railroad>("Reading Railroad", 200));
     add_street_property(street_property_counter);
     tiles.emplace_back(std::make_shared<NothingTile>("Chance"));
     add_street_property(street_property_counter);
     add_street_property(street_property_counter);
     tiles.emplace_back(std::make_shared<NothingTile>("Jail"));
     add_street_property(street_property_counter);
-    tiles.emplace_back(std::make_shared<Utility>("Electric Company", nullptr, 120));
+    tiles.emplace_back(std::make_shared<Utility>("Electric Company", 120));
     add_street_property(street_property_counter);
     add_street_property(street_property_counter);
-    tiles.emplace_back(std::make_shared<Railroad>("Pennsylvania Railroad", nullptr, 200));
+    tiles.emplace_back(std::make_shared<Railroad>("Pennsylvania Railroad", 200));
     add_street_property(street_property_counter);
     tiles.emplace_back(std::make_shared<NothingTile>("Community Chest"));
     add_street_property(street_property_counter);
@@ -44,21 +42,21 @@ Game::Game(std::vector<std::shared_ptr<Player>> players_in): players{players_in}
     tiles.emplace_back(std::make_shared<NothingTile>("Chance"));
     add_street_property(street_property_counter);
     add_street_property(street_property_counter);
-    tiles.emplace_back(std::make_shared<Railroad>("B&O Railroad", nullptr, 200));
+    tiles.emplace_back(std::make_shared<Railroad>("B&O Railroad", 200));
     add_street_property(street_property_counter);
     add_street_property(street_property_counter);
-    tiles.emplace_back(std::make_shared<Utility>("Water Works", nullptr, 120));
+    tiles.emplace_back(std::make_shared<Utility>("Water Works", 120));
     add_street_property(street_property_counter);
     tiles.emplace_back(std::make_shared<NothingTile>("Go To Jail"));
     add_street_property(street_property_counter);
     add_street_property(street_property_counter);
     tiles.emplace_back(std::make_shared<NothingTile>("Community Chest"));
     add_street_property(street_property_counter);
-    tiles.emplace_back(std::make_shared<Railroad>("Short Line", nullptr, 200));
+    tiles.emplace_back(std::make_shared<Railroad>("Short Line", 200));
     tiles.emplace_back(std::make_shared<NothingTile>("Chance"));
     add_street_property(street_property_counter);
     tiles.emplace_back(std::make_shared<TaxTile>("Luxury Tax", 100));
-    add_street_property(street_property_counter);*/
+    add_street_property(street_property_counter);
 }
 
 Game::~Game() {}

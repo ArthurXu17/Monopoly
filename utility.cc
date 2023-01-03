@@ -1,7 +1,9 @@
 #include "utility.h"
 
-Utility::Utility(std::string name_in, std::shared_ptr<Player> owner_in, int cost): 
-    Property{name_in, owner_in, cost} {}
+Utility::Utility(std::string name_in, int cost): 
+    Property{name_in, cost} {}
+
+Utility::~Utility() {}
 
 int Utility::calculate_rent() const {
     if (owner->get_num_utilities() == 1) {

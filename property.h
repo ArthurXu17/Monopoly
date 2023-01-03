@@ -3,14 +3,15 @@
 #include "tile.h"
 #include "player.h"
 
-class Property : Tile {
+class Property : public Tile {
     protected:
         std::shared_ptr<Player> owner;
     private:
         int cost;
         bool mortgaged = false;
     public:
-        Property(std::string name_in, std::shared_ptr<Player>& owner_in, int cost_in);
+        Property(std::string name_in, int cost_in);
+        virtual ~Property();
         virtual int calculate_rent() const = 0;
         void perform_turn(std::shared_ptr<Player> landed,
                           std::vector<std::shared_ptr<Player>> players) override;

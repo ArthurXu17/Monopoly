@@ -5,7 +5,8 @@
 
 class Utility : public Property {
     public:
-        Utility(std::string name_in, std::shared_ptr<Player> owner_in, int cost);
+        Utility(std::string name_in, int cost);
+        ~Utility();
         int calculate_rent() const override;
 };
 
