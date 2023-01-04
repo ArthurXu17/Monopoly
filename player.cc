@@ -31,7 +31,8 @@ int Player::get_last_roll() const {
 }
 
 void Player::print_assets() const {
-    std::cout<<"Player "<<ch<<std::endl;
+    std::cout<<"Player: "<<*this<<std::endl;
+    std::cout<<"Position: "<<position<<std::endl;
     std::cout<<"Money: $"<<money<<std::endl;
     std::cout<<"Unmortgaged Properties:"<<std::endl;
     for (auto & propertyPtr: owned_property) {
@@ -57,6 +58,7 @@ void Player::pay_bank(int amount) {
 
 void Player::move_forward(int amount) {
     if (position + amount >= 40) {
+        std::cout<<"Player "<<*this<<" passed GO. Collect $200!"<<std::endl;
         earn_money(200);
     }
     position = (position + amount) % 40;
@@ -69,6 +71,11 @@ void Player::pay_player(std::shared_ptr<Player> &receiver, int amount) {
 
 void Player::add_property(Property* property) {
     owned_property.emplace_back(property);
+}
+
+void Player::send_to_jail() {
+    in_jail = true;
+    position = 30;
 }
 
 std::ostream &operator<<(std::ostream &out, const Player p) {

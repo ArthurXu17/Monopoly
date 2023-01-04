@@ -44,10 +44,11 @@ Controller::Controller() {
 
 Controller::~Controller() {}
 
-std::pair<int,int> Controller::roll_dice(bool loaded, std::mt19937& game_gen) const {
+std::pair<int,int> Controller::roll_dice() {
     std::pair<int,int> result;
+    std::uniform_int_distribution<> distrib(1, 6);
     for (int i = 0; i <= 1; i++) {
-        if (loaded) {
+        if (loadedDice) {
             int min = 1, max = 6;
             int roll = 0;
             while (true) {
@@ -64,8 +65,7 @@ std::pair<int,int> Controller::roll_dice(bool loaded, std::mt19937& game_gen) co
                 result.second = roll;
             }
         } else {
-            std::uniform_int_distribution<> distrib(1, 6);
-            int roll = distrib(game_gen);
+            int roll = distrib(gen);
             if (i == 0) {
                 result.first = roll;
             } else {
@@ -76,10 +76,76 @@ std::pair<int,int> Controller::roll_dice(bool loaded, std::mt19937& game_gen) co
     return result;
 }
 
-void Controller::play() {
-    for (auto p : players) {
-        std::cout<<p->get_colour()<<p->get_char()<<std::endl;
+std::pair<int,int> Controller::roll_dice_io() {
+    while (true) {
+        std::cout << "Current dice are " << ((loadedDice) ? "load" : "fair") << ". "
+                  << "Enter \"load\" to change current dice to loaded dice, \"fair\" to change current dice to fair dice, or \"roll\" to roll the current dice.\n> ";
+        std::string cmd;
+        std::cin >> cmd;
+        std::cout << std::endl;
+        if (cmd == "fair") {  // fair dice
+            loadedDice = false;
+        } else if (cmd == "load") {  // loaded dice
+            loadedDice = true;
+        } else if (cmd == "roll")
+            break;
     }
-    std::cout<<RESET;
-    game->print_board();
+    return roll_dice();
+}
+
+void Controller::play() {
+    while (true) {
+        std::shared_ptr<Player> p = players[turn % players.size()];
+        std::string turn_cmd;
+        bool rolled_dice = false;
+        int numDoubles = 0;
+        bool end_game = false;
+        while (turn_cmd != "next") {
+            std::cout << "Player "<<*p<<"'s turn. Please enter a command (enter \"help\" to show valid commands).\n> ";
+            std::cin >> turn_cmd;
+            if (turn_cmd == "board") {  // prints current board
+                game->print_board();
+            } else if (turn_cmd == "roll") {
+                if (rolled_dice) {
+                    std::cout<<"Dice has already been rolled this turn"<<std::endl;
+                } else {
+                    std::pair<int, int> diceRoll = roll_dice_io();
+                    int diceRollNum = diceRoll.first + diceRoll.second;
+                    if (diceRoll.first == diceRoll.second) {
+                        std::cout<<"You rolled double "<<diceRoll.first<<"s. You may roll again this turn."<<std::endl;
+                        numDoubles++;
+                        if (numDoubles >= 3) {
+                            std::cout<<"You rolled 3 doubles in a row. Go To Jail."<<std::endl;
+                            p->send_to_jail();
+                            rolled_dice = true;
+                        } else {
+                            p->move_forward(diceRollNum);
+                        }
+                    } else {
+                        std::cout<<"You rolled "<<diceRoll.first<<" and "<<diceRoll.second<<"."<<std::endl;
+                        rolled_dice = true;
+                        p->move_forward(diceRollNum);
+                    }
+                } 
+            } else if (turn_cmd == "assets") {
+                p->print_assets();
+            } else if (turn_cmd == "next") {
+                if (!rolled_dice) {
+                    std::cout<<"You have not finished your rolls this turn"<<std::endl;
+                    turn_cmd = ""; // change turn_cmd to stay in same turn
+                } else {
+                    continue;
+                }
+            } else if (turn_cmd == "quit") {
+                end_game = true;
+                break;
+            } else {  // invalid command
+                std::cout << "Invalid command." << std::endl;
+            }
+        }
+        if (end_game) {
+            break;
+        }
+        turn = (turn + 1) % players.size();
+    }
 }

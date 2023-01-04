@@ -14,7 +14,10 @@ class Controller {
     std::vector<std::shared_ptr<Player>> players;
     std::mt19937 gen;
     std::default_random_engine rng;
-    std::pair<int,int> roll_dice(bool loaded, std::mt19937& game_gen) const;
+    int turn = 0;
+    bool loadedDice = false;
+    std::pair<int,int> roll_dice();
+    std::pair<int,int> roll_dice_io();
     public:
         Controller();
         void play();

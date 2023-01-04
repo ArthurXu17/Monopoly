@@ -35,6 +35,7 @@ class Player {
         void pay_player(std::shared_ptr<Player> &receiver, int amount);
         void move_forward(int steps);
         void add_property(Property * property);
+        void send_to_jail();
 };
 
 std::ostream &operator<<(std::ostream &out, const Player p);
