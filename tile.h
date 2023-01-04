@@ -5,7 +5,8 @@
 #include "player.h"
 
 class Tile {
-    std::string name;
+    protected:
+        std::string name;
     public:
         Tile(std::string name_in);
         virtual ~Tile();

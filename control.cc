@@ -1,8 +1,11 @@
 #include <iostream>
-#include <algorithm>
 #include "control.h"
 
 Controller::Controller() {
+    // rng initialization
+    unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
+    gen = std::mt19937(seed);
+    rng = std::default_random_engine(seed);
     char player;
     std::string colour;
     do {
@@ -41,16 +44,42 @@ Controller::Controller() {
 
 Controller::~Controller() {}
 
+std::pair<int,int> Controller::roll_dice(bool loaded, std::mt19937& game_gen) const {
+    std::pair<int,int> result;
+    for (int i = 0; i <= 1; i++) {
+        if (loaded) {
+            int min = 1, max = 6;
+            int roll = 0;
+            while (true) {
+                std::cout << "Input a roll between " << min << " and " << max << ".\n> "; // prompt for roll
+                std::cin >> roll;
+                if (roll < min || roll > max) { // not within range
+                    std::cout << "Invalid roll." << std::endl;
+                }
+                else break;
+            }
+            if (i == 0) {
+                result.first = roll;
+            } else {
+                result.second = roll;
+            }
+        } else {
+            std::uniform_int_distribution<> distrib(1, 6);
+            int roll = distrib(game_gen);
+            if (i == 0) {
+                result.first = roll;
+            } else {
+                result.second = roll;
+            }
+        }
+    }
+    return result;
+}
+
 void Controller::play() {
     for (auto p : players) {
         std::cout<<p->get_colour()<<p->get_char()<<std::endl;
     }
     std::cout<<RESET;
-    for (auto p : players) {
-        int pos;
-        std::cout<<"Enter a position: "<<std::endl;
-        std::cin>>pos;
-        p->move_forward(pos);
-    }
     game->print_board();
 }

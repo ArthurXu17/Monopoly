@@ -17,7 +17,7 @@ class Player {
     int jail_turns = 0;
     bool in_jail = false;
     int num_get_out_of_jail = 0;
-    // std::vector<std::unique_ptr<Property>> owned_property;
+    std::vector<Property *> owned_property;
     public:
         Player(char ch_in, std::string col_in);
         ~Player();
@@ -28,11 +28,13 @@ class Player {
         int get_num_railroads() const;
         int get_num_utilities() const;
         int get_last_roll() const;
+        void print_assets() const;
         // modifiers from game
         void earn_money(int amount);
         void pay_bank(int amount);
         void pay_player(std::shared_ptr<Player> &receiver, int amount);
         void move_forward(int steps);
+        void add_property(Property * property);
 };
 
 std::ostream &operator<<(std::ostream &out, const Player p);

@@ -1,5 +1,6 @@
 #include <iostream>
 #include "player.h"
+#include "property.h"
 
 Player::Player(char ch_in, std::string col_in): ch{ch_in}, colour{col_in} {}
 
@@ -29,6 +30,23 @@ int Player::get_last_roll() const {
     return last_roll;
 }
 
+void Player::print_assets() const {
+    std::cout<<"Player "<<ch<<std::endl;
+    std::cout<<"Money: $"<<money<<std::endl;
+    std::cout<<"Unmortgaged Properties:"<<std::endl;
+    for (auto & propertyPtr: owned_property) {
+        if (!propertyPtr->is_mortgaged()) {
+            std::cout<<propertyPtr->get_name()<<std::endl;
+        }
+    }
+    std::cout<<"Mortgaged Properties:"<<std::endl;
+    for (auto & propertyPtr: owned_property) {
+        if (propertyPtr->is_mortgaged()) {
+            std::cout<<propertyPtr->get_name()<<std::endl;
+        }
+    }
+}
+
 void Player::earn_money(int amount) {
     money+=amount;
 }
@@ -47,6 +65,10 @@ void Player::move_forward(int amount) {
 void Player::pay_player(std::shared_ptr<Player> &receiver, int amount) {
     receiver->earn_money(amount);
     money-=amount;
+}
+
+void Player::add_property(Property* property) {
+    owned_property.emplace_back(property);
 }
 
 std::ostream &operator<<(std::ostream &out, const Player p) {
