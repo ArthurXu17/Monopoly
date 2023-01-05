@@ -1,6 +1,7 @@
 #include <iostream>
 #include "player.h"
 #include "property.h"
+#include "street_property.h"
 
 Player::Player(char ch_in, std::string col_in): ch{ch_in}, colour{col_in} {}
 
@@ -30,18 +31,49 @@ int Player::get_last_roll() const {
     return last_roll;
 }
 
+std::vector<Property *> Player::get_properties() const {
+    return owned_property;
+}
+
+std::vector<Property *> Player::get_mortgaged_properties() const {
+    std::vector<Property *> result;
+    for (const auto & propertyPtr: owned_property) {
+        if (propertyPtr->is_mortgaged()) {
+            result.emplace_back(propertyPtr);
+        }
+    }
+    return result;
+}
+
+std::vector<Property *> Player::get_mortgageable_properties() const {
+    std::vector<Property *> result;
+    for (const auto & propertyPtr: owned_property) {
+        if (!propertyPtr->is_mortgaged()) {
+            if (propertyPtr->is_railroad() || propertyPtr->is_utility()) {
+                result.emplace_back(propertyPtr);
+            } else {
+                Street_Property *streetPropertyPtr = static_cast<Street_Property *>(propertyPtr);
+                if (streetPropertyPtr->get_num_houses() == 0) {
+                    result.emplace_back(streetPropertyPtr);
+                }
+            }
+        }
+    }
+    return result;
+}
+
 void Player::print_assets() const {
     std::cout<<"Player: "<<*this<<std::endl;
     std::cout<<"Position: "<<position<<std::endl;
     std::cout<<"Money: $"<<money<<std::endl;
     std::cout<<"Unmortgaged Properties:"<<std::endl;
-    for (auto & propertyPtr: owned_property) {
+    for (const auto & propertyPtr: owned_property) {
         if (!propertyPtr->is_mortgaged()) {
             std::cout<<propertyPtr->get_name()<<std::endl;
         }
     }
     std::cout<<"Mortgaged Properties:"<<std::endl;
-    for (auto & propertyPtr: owned_property) {
+    for (const auto & propertyPtr: owned_property) {
         if (propertyPtr->is_mortgaged()) {
             std::cout<<propertyPtr->get_name()<<std::endl;
         }

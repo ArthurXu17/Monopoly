@@ -15,9 +15,13 @@ void Property::perform_turn(std::shared_ptr<Player> landed,
             std::cout<<"Player "<<*landed<<" landed on their property "<<name<<std::endl;
         } else {
             std::cout<<"Player "<<*landed<<" landed on "<<*owner<<"'s property: "<<name<<std::endl;
-            int rent = calculate_rent(landed);
-            std::cout<<*landed<<" pays "<<*owner<<" $"<<rent<<" in rent"<<std::endl;
-            landed->pay_player(owner, rent);
+            if (mortgaged) {
+                std::cout<<"The property is mortgaged and rent is not paid"<<std::endl;
+            } else {
+                int rent = calculate_rent(landed);
+                std::cout<<*landed<<" pays "<<*owner<<" $"<<rent<<" in rent"<<std::endl;
+                landed->pay_player(owner, rent);
+            }
         }
     } else {
         std::cout<<"Player "<<*landed<<" landed on the unowned property "<<name<<std::endl;
@@ -34,10 +38,22 @@ void Property::perform_turn(std::shared_ptr<Player> landed,
     }
 }
 
+int Property::get_cost() const {
+    return cost;
+}
+
 bool Property::is_owned() const {
     return !(owner == nullptr);
 }
 
 bool Property::is_mortgaged() const {
     return mortgaged;
+}
+
+void Property::mortgage_property() {
+    mortgaged = true;
+}
+
+void Property::unmortgage_property() {
+    mortgaged = false;
 }

@@ -21,3 +21,7 @@ bool Street_Property::is_railroad() const {
 bool Street_Property::is_utility() const {
     return false;
 }
+
+int Street_Property::get_num_houses() const {
+    return houses;
+}

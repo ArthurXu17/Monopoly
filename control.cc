@@ -129,6 +129,44 @@ void Controller::play() {
                         game->playerLandOnTile(p);
                     }
                 } 
+            } else if (turn_cmd == "mortgage") {
+                std::string property_name;
+                std::cin.ignore();
+                std::getline(std::cin, property_name);
+                std::vector<Property *> mortgageable_properties = p->get_mortgageable_properties();
+                Property *property_to_mortgage = nullptr;
+                for (auto & propertyPtr : mortgageable_properties) {
+                    if (propertyPtr->get_name() == property_name) {
+                        property_to_mortgage = propertyPtr;
+                    }
+                }
+                if (property_to_mortgage) {
+                    int money_gain = property_to_mortgage->get_cost() / 2;
+                    property_to_mortgage->mortgage_property();
+                    p->earn_money(money_gain);
+                    std::cout<<"Successfully Mortgaged "<<property_name<<". "<<*p<<" received $"<<money_gain<<"."<<std::endl;
+                } else {
+                    std::cout<<property_name<<" is not a valid mortgageable property"<<std::endl;
+                }
+            } else if (turn_cmd == "unmortgage") {
+                std::string property_name;
+                std::cin.ignore();
+                std::getline(std::cin, property_name);
+                std::vector<Property *> mortgaged_properties = p->get_mortgaged_properties();
+                Property *property_to_unmortgage = nullptr;
+                for (auto & propertyPtr : mortgaged_properties) {
+                    if (propertyPtr->get_name() == property_name) {
+                        property_to_unmortgage = propertyPtr;
+                    }
+                }
+                if (property_to_unmortgage) {
+                    int cost = 3 * property_to_unmortgage->get_cost() / 5;
+                    property_to_unmortgage->unmortgage_property();
+                    p->pay_bank(cost);
+                    std::cout<<"Successfully Unmortgaged "<<property_name<<". "<<*p<<" payed bank $"<<cost<<"."<<std::endl;
+                } else {
+                    std::cout<<property_name<<" is not a valid property to unmortgage"<<std::endl;
+                }
             } else if (turn_cmd == "assets") {
                 p->print_assets();
             } else if (turn_cmd == "all-assets") {

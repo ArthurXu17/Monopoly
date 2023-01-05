@@ -29,6 +29,9 @@ class Player {
         int get_num_utilities() const;
         int get_last_roll() const;
         void print_assets() const;
+        std::vector<Property *> get_properties() const ;
+        std::vector<Property *> get_mortgageable_properties() const;
+        std::vector<Property *> get_mortgaged_properties() const;
         // modifiers from game
         void earn_money(int amount);
         void pay_bank(int amount);
