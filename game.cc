@@ -158,19 +158,42 @@ void Game::print_player_on_tile(int pos) const {
     std::cout<<"|";
 }
 
+void Game::print_houses(std::shared_ptr<Tile> property) const {
+    std::shared_ptr<Street_Property> street_property = std::static_pointer_cast<Street_Property>(property);
+    int num_houses = street_property->get_num_houses();
+    if (1 <= num_houses && num_houses <= 4) {
+        std::cout<<GREEN;
+        for (int i = 1; i <= num_houses; i++) {
+            std::cout<<"h";
+        }
+        for (int i = 1; i <= tile_size - num_houses; i++) {
+            std::cout<<" ";
+        }
+        std::cout<<RESET<<"|";
+    } else if (num_houses == 5) {
+        std::cout<<RED<<"H";
+        for (int i = 1; i <= tile_size - 1; i++) {
+            std::cout<<" ";
+        }
+        std::cout<<RESET<<"|";
+    } else {
+        print_blank_tile();
+    }
+}
+
 void Game::print_board() const {
     print_outer_border();
     std::cout<<"|";
     print_str_tile("FREE"); 
-    print_blank_tile();
+    print_houses(tiles[21]); // Kentucky
     print_str_tile("CHANCE"); 
-    print_blank_tile();
-    print_blank_tile();
+    print_houses(tiles[23]); // Indiana
+    print_houses(tiles[24]); // Illinois
     print_str_tile("B&O");
-    print_blank_tile();
-    print_blank_tile();
+    print_houses(tiles[26]); // Atlantic
+    print_houses(tiles[27]); // Ventnor
     print_str_tile("WATER");
-    print_blank_tile();
+    print_houses(tiles[29]); // Marvin Gardens
     print_str_tile("GO TO");
     std::cout<<std::endl<<"|";
     print_str_tile("PARKING");
@@ -215,7 +238,11 @@ void Game::print_board() const {
     print_blank_tile();
     std::cout<<std::endl;
     print_inner_border();
-    print_empty_center_row();
+    std::cout<<"|";
+    print_houses(tiles[19]); // New York
+    print_middle();
+    print_houses(tiles[31]); // Pacific
+    std::cout<<std::endl;
     std::cout<<"|";
     print_property_edge(ORANGE);
     print_middle();
@@ -235,7 +262,11 @@ void Game::print_board() const {
     print_player_on_tile(31); // pacific players
     std::cout<<std::endl;
     print_tile_center_row();
-    print_empty_center_row();
+    std::cout<<"|";
+    print_houses(tiles[18]); // Tennesee
+    print_middle();
+    print_houses(tiles[32]); // North Carolina
+    std::cout<<std::endl;
     std::cout<<"|";
     print_property_edge(ORANGE);
     print_middle();
@@ -273,7 +304,11 @@ void Game::print_board() const {
     print_player_on_tile(33); // cc
     std::cout<<std::endl;
     print_tile_center_row();
-    print_empty_center_row();
+    std::cout<<"|";
+    print_houses(tiles[16]); // St james
+    print_middle();
+    print_houses(tiles[34]); // Pennsylvania
+    std::cout<<std::endl;
     std::cout<<"|";
     print_property_edge(ORANGE);
     print_middle();
@@ -312,7 +347,7 @@ void Game::print_board() const {
     std::cout<<std::endl;
     print_tile_center_row();
     std::cout<<"|";
-    print_blank_tile();
+    print_houses(tiles[14]); // virginia
     print_middle();
     print_str_tile("CHANCE");
     std::cout<<std::endl;
@@ -337,7 +372,11 @@ void Game::print_board() const {
     print_player_on_tile(36); // chance
     std::cout<<std::endl;
     print_tile_center_row();
-    print_empty_center_row();
+    std::cout<<"|";
+    print_houses(tiles[13]); // States
+    print_middle();
+    print_houses(tiles[37]); // Park place
+    std::cout<<std::endl;
     std::cout<<"|";
     print_property_edge(PINK);
     print_middle();
@@ -375,7 +414,11 @@ void Game::print_board() const {
     print_player_on_tile(38); // luxary tax
     std::cout<<std::endl;
     print_tile_center_row();
-    print_empty_center_row();
+    std::cout<<"|";
+    print_houses(tiles[11]); // st charles
+    print_middle();
+    print_houses(tiles[39]); // Boardwalk
+    std::cout<<std::endl;
     std::cout<<"|";
     print_property_edge(PINK);
     print_middle();
@@ -405,15 +448,15 @@ void Game::print_board() const {
     std::cout<<"|"<<std::endl;
     std::cout<<"|";
     print_str_tile("JAIL"); 
-    print_blank_tile();
-    print_blank_tile();
+    print_houses(tiles[9]); // connecticut
+    print_houses(tiles[8]); // vermont
     print_str_tile("CHANCE"); 
-    print_blank_tile();
+    print_houses(tiles[6]); // oriental
     print_str_tile("READING");
     print_str_tile("INCOME");
-    print_blank_tile();
+    print_houses(tiles[3]); // baltic
     print_str_tile("COMMUNITY");
-    print_blank_tile();
+    print_houses(tiles[1]); // medditeranean
     print_str_tile("GO");
     std::cout<<std::endl<<"|";
     print_player_on_tile(30); // in jail

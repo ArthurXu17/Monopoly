@@ -22,6 +22,22 @@ bool Street_Property::is_utility() const {
     return false;
 }
 
+int Street_Property::get_house_cost() const {
+    return house_cost;
+}
+
 int Street_Property::get_num_houses() const {
     return houses;
+}
+
+bool Street_Property::can_buy_house() const {
+    return true;
+}
+
+bool Street_Property::can_buy_hotel() const {
+    return true;
+}
+
+void Street_Property::build_house() {
+    houses++;
 }

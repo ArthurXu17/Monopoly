@@ -17,9 +17,11 @@ class Street_Property : public Property {
         int calculate_rent(std::shared_ptr<Player> landed) const override;
         bool is_railroad() const override;
         bool is_utility() const override;
+        int get_house_cost() const;
         int get_num_houses() const;
-        bool can_buy_house() const;
-        bool can_buy_hotel() const;
+        bool can_buy_house() const override;
+        bool can_buy_hotel() const override;
+        void build_house();
 };
 
 #endif

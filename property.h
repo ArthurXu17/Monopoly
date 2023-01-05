@@ -15,6 +15,8 @@ class Property : public Tile {
         virtual int calculate_rent(std::shared_ptr<Player> landed) const = 0;
         virtual bool is_railroad() const = 0;
         virtual bool is_utility() const = 0;
+        virtual bool can_buy_house() const = 0;
+        virtual bool can_buy_hotel() const = 0;
         void perform_turn(std::shared_ptr<Player> landed,
                           std::vector<std::shared_ptr<Player>> players) override;
         int get_cost() const;

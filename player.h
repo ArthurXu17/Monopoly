@@ -5,6 +5,7 @@
 #include "constants.h"
 
 class Property;
+class Street_Property;
 
 class Player {
     char ch;
@@ -32,6 +33,8 @@ class Player {
         std::vector<Property *> get_properties() const ;
         std::vector<Property *> get_mortgageable_properties() const;
         std::vector<Property *> get_mortgaged_properties() const;
+        std::vector<Street_Property *> build_house_properties() const;
+        std::vector<Street_Property *> build_hotel_properties() const;
         // modifiers from game
         void earn_money(int amount);
         void pay_bank(int amount);

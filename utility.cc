@@ -22,3 +22,11 @@ bool Utility::is_railroad() const {
 bool Utility::is_utility() const {
     return true;
 }
+
+bool Utility::can_buy_house() const {
+    return false;
+}
+
+bool Utility::can_buy_hotel() const {
+    return false;
+}

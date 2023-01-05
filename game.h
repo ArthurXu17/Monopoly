@@ -25,6 +25,7 @@ class Game {
     void print_inner_border() const;
     void print_outer_border() const;
     void print_player_on_tile(int pos) const;
+    void print_houses(std::shared_ptr<Tile> property) const;
     public:
         Game(std::vector<std::shared_ptr<Player>> players_in);
         void print_board() const;

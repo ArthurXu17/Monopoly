@@ -10,6 +10,8 @@ class Utility : public Property {
         int calculate_rent(std::shared_ptr<Player> landed) const override;
         bool is_railroad() const override;
         bool is_utility() const override;
+        bool can_buy_house() const override;
+        bool can_buy_hotel() const override;
 };
 
 #endif

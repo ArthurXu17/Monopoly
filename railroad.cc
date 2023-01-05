@@ -26,3 +26,11 @@ bool Railroad::is_railroad() const {
 bool Railroad::is_utility() const {
     return false;
 }
+
+bool Railroad::can_buy_house() const {
+    return false;
+}
+
+bool Railroad::can_buy_hotel() const {
+    return false;
+}
