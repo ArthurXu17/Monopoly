@@ -46,6 +46,7 @@ void Player::print_assets() const {
             std::cout<<propertyPtr->get_name()<<std::endl;
         }
     }
+    std::cout<<"--------------------"<<std::endl;
 }
 
 void Player::earn_money(int amount) {
@@ -61,6 +62,7 @@ void Player::move_forward(int amount) {
         std::cout<<"Player "<<*this<<" passed GO. Collect $200!"<<std::endl;
         earn_money(200);
     }
+    last_roll = amount;
     position = (position + amount) % 40;
 }
 
@@ -71,6 +73,11 @@ void Player::pay_player(std::shared_ptr<Player> &receiver, int amount) {
 
 void Player::add_property(Property* property) {
     owned_property.emplace_back(property);
+    if (property->is_railroad()) {
+        num_railroads++;
+    } else if (property->is_utility()) {
+        num_utilities++;
+    }
 }
 
 void Player::send_to_jail() {

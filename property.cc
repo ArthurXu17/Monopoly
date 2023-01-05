@@ -11,8 +11,16 @@ Property::~Property() {}
 void Property::perform_turn(std::shared_ptr<Player> landed,
                        std::vector<std::shared_ptr<Player>> players) {
     if (owner) {
-        landed->pay_player(owner, calculate_rent());
+        if (owner == landed) {
+            std::cout<<"Player "<<*landed<<" landed on their property "<<name<<std::endl;
+        } else {
+            std::cout<<"Player "<<*landed<<" landed on "<<*owner<<"'s property: "<<name<<std::endl;
+            int rent = calculate_rent(landed);
+            std::cout<<*landed<<" pays "<<*owner<<" $"<<rent<<" in rent"<<std::endl;
+            landed->pay_player(owner, rent);
+        }
     } else {
+        std::cout<<"Player "<<*landed<<" landed on the unowned property "<<name<<std::endl;
         std::cout<<"Would you like to buy or auction "<<name<<"? Enter 'b' or 'a'"<<std::endl;
         char input;
         std::cin>>input;
@@ -20,6 +28,7 @@ void Property::perform_turn(std::shared_ptr<Player> landed,
 
         } else {
             owner = landed;
+            owner->pay_bank(cost);
             owner->add_property(this);
         }
     }

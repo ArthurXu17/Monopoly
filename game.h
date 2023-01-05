@@ -28,6 +28,7 @@ class Game {
     public:
         Game(std::vector<std::shared_ptr<Player>> players_in);
         void print_board() const;
+        void playerLandOnTile(std::shared_ptr<Player> landed);
         ~Game();
 };
 

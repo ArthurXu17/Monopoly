@@ -459,3 +459,8 @@ void Game::print_board() const {
     std::cout<<std::endl;
     print_inner_border();
 }
+
+void Game::playerLandOnTile(std::shared_ptr<Player> landed) {
+    int pos = landed->get_position();
+    tiles.at(pos)->perform_turn(landed, players);
+}

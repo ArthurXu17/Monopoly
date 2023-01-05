@@ -120,15 +120,21 @@ void Controller::play() {
                             rolled_dice = true;
                         } else {
                             p->move_forward(diceRollNum);
+                            game->playerLandOnTile(p);
                         }
                     } else {
                         std::cout<<"You rolled "<<diceRoll.first<<" and "<<diceRoll.second<<"."<<std::endl;
                         rolled_dice = true;
                         p->move_forward(diceRollNum);
+                        game->playerLandOnTile(p);
                     }
                 } 
             } else if (turn_cmd == "assets") {
                 p->print_assets();
+            } else if (turn_cmd == "all-assets") {
+                for (auto & player : players) {
+                    player->print_assets();
+                }
             } else if (turn_cmd == "next") {
                 if (!rolled_dice) {
                     std::cout<<"You have not finished your rolls this turn"<<std::endl;

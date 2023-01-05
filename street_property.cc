@@ -6,10 +6,18 @@ Street_Property::Street_Property(std::string name_in, int cost_in,
 
 Street_Property::~Street_Property() {}
 
-int Street_Property::calculate_rent() const {
+int Street_Property::calculate_rent(std::shared_ptr<Player> landed) const {
     if (houses == 0 && is_monopoly) {
         return 2 * rent_by_houses[houses];
     } else {
         return rent_by_houses[houses];
     }
+}
+
+bool Street_Property::is_railroad() const {
+    return false;
+}
+
+bool Street_Property::is_utility() const {
+    return false;
 }
