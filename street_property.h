@@ -3,7 +3,7 @@
 #include "property.h"
 
 class Street_Property : public Property {
-    std::vector<std::unique_ptr<Property>> colour_group;
+    std::vector<std::shared_ptr<Street_Property>> colour_group;
     int houses = 0;
     int hotels = 0;
     int house_cost;

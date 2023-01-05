@@ -93,6 +93,24 @@ std::pair<int,int> Controller::roll_dice_io() {
     return roll_dice();
 }
 
+Property * Controller::select_property(std::vector<Property *> list_of_properties, std::string action) const {
+    std::cout<<"Select a property to "<<action<<"."<<std::endl;
+    for (std::size_t i = 0; i < list_of_properties.size(); i++) {
+        std::cout<<i<<" - "<<list_of_properties[i]->get_name()<<std::endl;
+    }
+    std::size_t index;
+    while (true) {
+        std::cin>>index;
+        if (0 <= index && index < list_of_properties.size()) {
+            break;
+        } else {
+            std::cout<<"The input was not in the range of 0-"<<list_of_properties.size()<<std::endl;
+            std::cout<<"Choose a number in the valid range."<<std::endl;
+        }
+    }
+    return list_of_properties[index];
+}
+
 void Controller::play() {
     while (true) {
         std::shared_ptr<Player> p = players[turn % players.size()];
@@ -129,43 +147,51 @@ void Controller::play() {
                         game->playerLandOnTile(p);
                     }
                 } 
-            } else if (turn_cmd == "mortgage") {
-                std::string property_name;
-                std::cin.ignore();
-                std::getline(std::cin, property_name);
-                std::vector<Property *> mortgageable_properties = p->get_mortgageable_properties();
-                Property *property_to_mortgage = nullptr;
-                for (auto & propertyPtr : mortgageable_properties) {
-                    if (propertyPtr->get_name() == property_name) {
-                        property_to_mortgage = propertyPtr;
-                    }
+            } else if (turn_cmd == "build-house") {
+                std::vector<Property *> house_properties = p->build_house_properties();
+                if (house_properties.size() == 0) {
+                    std::cout<<"There are no properties to build a house on."<<std::endl;
+                } else {
+                    Property *property_to_build = select_property(house_properties, "build a house on");
+                    Street_Property *street_property = static_cast<Street_Property *>(property_to_build);
+                    int house_cost = street_property->get_house_cost();
+                    p->pay_bank(house_cost);
+                    street_property->build_house();
+                    std::cout<<"Player "<<*p<<" paid the bank $"<<house_cost<<" to buy a house on "<<street_property->get_name()<<"."<<std::endl;
                 }
-                if (property_to_mortgage) {
+            } else if (turn_cmd == "build-hotel") {
+                std::vector<Property *> hotel_properties = p->build_hotel_properties();
+                if (hotel_properties.size() == 0) {
+                    std::cout<<"There are no properties to build a hotel on."<<std::endl;
+                } else {
+                    Property *property_to_build = select_property(hotel_properties, "build a hotel on");
+                    Street_Property *street_property = static_cast<Street_Property *>(property_to_build);
+                    int house_cost = street_property->get_house_cost();
+                    p->pay_bank(house_cost);
+                    street_property->build_house(); // building hotel calls build_house function
+                    std::cout<<"Player "<<*p<<" paid the bank $"<<house_cost<<" to buy a hotel on "<<street_property->get_name()<<"."<<std::endl;
+                }
+            } else if (turn_cmd == "mortgage") {
+                std::vector<Property *> mortgageable_properties = p->get_mortgageable_properties();
+                if (mortgageable_properties.size() == 0) {
+                    std::cout<<"There are no properties available to mortgage"<<std::endl;
+                } else {
+                    Property *property_to_mortgage = select_property(mortgageable_properties, "mortgage");
                     int money_gain = property_to_mortgage->get_cost() / 2;
                     property_to_mortgage->mortgage_property();
                     p->earn_money(money_gain);
-                    std::cout<<"Successfully Mortgaged "<<property_name<<". "<<*p<<" received $"<<money_gain<<"."<<std::endl;
-                } else {
-                    std::cout<<property_name<<" is not a valid mortgageable property"<<std::endl;
+                    std::cout<<"Successfully Mortgaged "<<property_to_mortgage->get_name()<<". "<<*p<<" received $"<<money_gain<<"."<<std::endl;
                 }
             } else if (turn_cmd == "unmortgage") {
-                std::string property_name;
-                std::cin.ignore();
-                std::getline(std::cin, property_name);
                 std::vector<Property *> mortgaged_properties = p->get_mortgaged_properties();
-                Property *property_to_unmortgage = nullptr;
-                for (auto & propertyPtr : mortgaged_properties) {
-                    if (propertyPtr->get_name() == property_name) {
-                        property_to_unmortgage = propertyPtr;
-                    }
-                }
-                if (property_to_unmortgage) {
+                if (mortgaged_properties.size() == 0) {
+                    std::cout<<"There are no properties available to unmortgage"<<std::endl;
+                } else {
+                    Property *property_to_unmortgage = select_property(mortgaged_properties, "unmortgage");
                     int cost = 3 * property_to_unmortgage->get_cost() / 5;
                     property_to_unmortgage->unmortgage_property();
                     p->pay_bank(cost);
-                    std::cout<<"Successfully Unmortgaged "<<property_name<<". "<<*p<<" payed bank $"<<cost<<"."<<std::endl;
-                } else {
-                    std::cout<<property_name<<" is not a valid property to unmortgage"<<std::endl;
+                    std::cout<<"Successfully Unmortgaged "<<property_to_unmortgage->get_name()<<". "<<*p<<" payed bank $"<<cost<<"."<<std::endl;
                 }
             } else if (turn_cmd == "assets") {
                 p->print_assets();

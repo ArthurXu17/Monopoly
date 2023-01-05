@@ -62,23 +62,21 @@ std::vector<Property *> Player::get_mortgageable_properties() const {
     return result;
 }
 
-std::vector<Street_Property *> Player::build_house_properties() const {
-    std::vector<Street_Property *> result;
+std::vector<Property *> Player::build_house_properties() const {
+    std::vector<Property *> result;
     for (const auto & propertyPtr: owned_property) {
         if (propertyPtr->can_buy_house()) {
-            Street_Property *streetPropertyPtr = static_cast<Street_Property *>(propertyPtr);
-            result.emplace_back(streetPropertyPtr);
+            result.emplace_back(propertyPtr);
         }
     }
     return result;
 }
 
-std::vector<Street_Property *> Player::build_hotel_properties() const {
-    std::vector<Street_Property *> result;
+std::vector<Property *> Player::build_hotel_properties() const {
+    std::vector<Property *> result;
     for (const auto & propertyPtr: owned_property) {
         if (propertyPtr->can_buy_hotel()) {
-            Street_Property *streetPropertyPtr = static_cast<Street_Property *>(propertyPtr);
-            result.emplace_back(streetPropertyPtr);
+            result.emplace_back(propertyPtr);
         }
     }
     return result;

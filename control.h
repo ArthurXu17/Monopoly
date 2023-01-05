@@ -18,6 +18,7 @@ class Controller {
     bool loadedDice = false;
     std::pair<int,int> roll_dice();
     std::pair<int,int> roll_dice_io();
+    Property * select_property(std::vector<Property *> list_of_properties, std::string action) const;
     public:
         Controller();
         void play();
