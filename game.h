@@ -13,6 +13,9 @@ class Game {
     std::vector<std::shared_ptr<Tile>> tiles;
     // property intialization helper funciton
     void add_street_property(int &i);
+    void initialize_board();
+    void pair_up_colour_groups(std::shared_ptr<Tile> tile1, std::shared_ptr<Tile> tile2);
+    void initialize_colour_groups();
     // print board helper functions
     void print_tile_edge() const;
     void print_blank_tile() const;

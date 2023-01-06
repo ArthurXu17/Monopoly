@@ -6,12 +6,25 @@ Street_Property::Street_Property(std::string name_in, int cost_in,
 
 Street_Property::~Street_Property() {}
 
+void Street_Property::add_colour_group_member(Street_Property * other) {
+    colour_group.emplace_back(other);
+}
+
 int Street_Property::calculate_rent(std::shared_ptr<Player> landed) const {
-    if (houses == 0 && is_monopoly) {
+    if (houses == 0 && is_monopoly()) {
         return 2 * rent_by_houses[houses];
     } else {
         return rent_by_houses[houses];
     }
+}
+
+bool Street_Property::is_monopoly() const {
+    for (const auto & propertyPtr : colour_group) {
+        if (propertyPtr->owner != this->owner) {
+            return false;
+        }
+    }
+    return true;
 }
 
 bool Street_Property::is_railroad() const {
@@ -30,12 +43,25 @@ int Street_Property::get_num_houses() const {
     return houses;
 }
 
+bool Street_Property::shared_building_check() const {
+    if (!is_monopoly()) {
+        return false;
+    } else {
+        for (const auto & propertyPtr : colour_group) {
+            if (propertyPtr->get_num_houses() < houses) {
+                return false;
+            }
+        }
+        return true;
+    }
+}
+
 bool Street_Property::can_buy_house() const {
-    return true;
+    return (shared_building_check() && houses < 4);
 }
 
 bool Street_Property::can_buy_hotel() const {
-    return true;
+    return (shared_building_check() && houses == 4);
 }
 
 void Street_Property::build_house() {

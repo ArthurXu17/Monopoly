@@ -3,11 +3,11 @@
 
 void Game::add_street_property(int &i) {
     int j = 0; // house index
-    if (6 <= i && i <= 11) {
+    if (5 <= i && i <= 10) {
         j = 1;
-    } else if (12 <= i && i <= 16) {
+    } else if (11 <= i && i <= 15) {
         j = 2;
-    } else if (17 <= i && i <= 20) {
+    } else if (16 <= i && i <= 19) {
         j = 3;
     }
     tiles.emplace_back(std::make_shared<Street_Property>(
@@ -15,7 +15,7 @@ void Game::add_street_property(int &i) {
     i++;
 }
 
-Game::Game(std::vector<std::shared_ptr<Player>> players_in): players{players_in} {
+void Game::initialize_board() {
     tiles.emplace_back(std::make_shared<NothingTile>("GO"));
     int street_property_counter = 0;
     add_street_property(street_property_counter);
@@ -57,6 +57,56 @@ Game::Game(std::vector<std::shared_ptr<Player>> players_in): players{players_in}
     add_street_property(street_property_counter);
     tiles.emplace_back(std::make_shared<TaxTile>("Luxury Tax", 100));
     add_street_property(street_property_counter);
+}
+
+void Game::pair_up_colour_groups(std::shared_ptr<Tile> tile1, std::shared_ptr<Tile> tile2) {
+    auto street1 = std::static_pointer_cast<Street_Property>(tile1);
+    auto street2 = std::static_pointer_cast<Street_Property>(tile2);
+    street1->add_colour_group_member(street2.get());
+    street2->add_colour_group_member(street1.get());
+}
+
+void Game::initialize_colour_groups() {
+    // brown
+    pair_up_colour_groups(tiles[1], tiles[3]);
+
+    // light blue
+    pair_up_colour_groups(tiles[6], tiles[8]);
+    pair_up_colour_groups(tiles[6], tiles[9]);
+    pair_up_colour_groups(tiles[8], tiles[9]);
+
+    // pink
+    pair_up_colour_groups(tiles[11], tiles[13]);
+    pair_up_colour_groups(tiles[11], tiles[14]);
+    pair_up_colour_groups(tiles[13], tiles[14]);
+
+    // orange
+    pair_up_colour_groups(tiles[16], tiles[18]);
+    pair_up_colour_groups(tiles[16], tiles[19]);
+    pair_up_colour_groups(tiles[18], tiles[19]);
+
+    // red
+    pair_up_colour_groups(tiles[21], tiles[23]);
+    pair_up_colour_groups(tiles[21], tiles[24]);
+    pair_up_colour_groups(tiles[23], tiles[24]);
+
+    // yellow
+    pair_up_colour_groups(tiles[26], tiles[27]);
+    pair_up_colour_groups(tiles[26], tiles[29]);
+    pair_up_colour_groups(tiles[27], tiles[29]);
+
+    // green
+    pair_up_colour_groups(tiles[31], tiles[32]);
+    pair_up_colour_groups(tiles[31], tiles[34]);
+    pair_up_colour_groups(tiles[32], tiles[34]);
+
+    // blue
+    pair_up_colour_groups(tiles[37], tiles[39]);
+}
+
+Game::Game(std::vector<std::shared_ptr<Player>> players_in): players{players_in} {
+    initialize_board();
+    initialize_colour_groups();
 }
 
 Game::~Game() {}
